@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Weather App: consulta del clima actual y pronóstico de tres días. Interfaz en preparación.">
+  <title>Weather App | Consulta del clima</title>
+  <link rel="icon" href="data:,">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="estilos.css" rel="stylesheet">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <header class="mb-4">
+      <h1 class="fw-bold">Weather App</h1>
+      <p class="text-body-secondary mb-0">Clima actual y pronóstico de tres días para la ciudad que elijas.</p>
+    </header>
+
+    <section class="card shadow-sm mb-4" aria-labelledby="tituloBusqueda">
+      <div class="card-body p-3 p-md-4">
+        <h2 id="tituloBusqueda" class="h4">Buscar una ciudad</h2>
+        <p id="avisoInterfaz" class="text-body-secondary">Vista estática: la búsqueda todavía no está disponible. No se han consultado datos meteorológicos.</p>
+        <form id="formularioBusqueda" aria-describedby="avisoInterfaz">
+          <!-- Se habilitará al incorporar los eventos y la geocodificación. -->
+          <fieldset disabled>
+            <legend class="visually-hidden">Búsqueda de ciudad no disponible todavía</legend>
+            <div class="row g-3 align-items-end">
+              <div class="col-12 col-md">
+                <label for="campoCiudad" class="form-label">Nombre de la ciudad</label>
+                <input id="campoCiudad" name="ciudad" type="text" class="form-control" placeholder="Escribe una ciudad" autocomplete="off">
+              </div>
+              <div class="col-12 col-md-auto">
+                <button id="botonBuscar" class="btn btn-primary w-100" type="submit">Buscar</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </section>
+
+    <div id="mensajeCarga" class="alert alert-info d-none" role="status" aria-live="polite" aria-atomic="true">Consultando datos…</div>
+    <div id="mensajeError" class="alert alert-danger d-none" role="alert" aria-atomic="true"></div>
+
+    <section class="card shadow-sm mb-4" aria-labelledby="tituloClima">
+      <div class="card-body p-3 p-md-4">
+        <h2 id="tituloClima" class="h4">Clima actual</h2>
+        <div class="mb-4">
+          <h3 id="nombreCiudad" class="h5">Sin ciudad seleccionada</h3>
+          <p id="ubicacionCiudad" class="text-body-secondary mb-0">Aquí aparecerán la región y el país, si están disponibles.</p>
+        </div>
+        <p class="small text-body-secondary">Sin datos consultados. Las temperaturas se mostrarán en °C, el viento en km/h y la humedad en %.</p>
+        <dl class="row g-3 mb-0">
+          <div class="col-12 col-sm-6 col-lg-4">
+            <dt>Temperatura</dt>
+            <dd id="temperaturaActual" class="dato-clima">Sin datos</dd>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <dt>Sensación térmica</dt>
+            <dd id="sensacionTermica" class="dato-clima">Sin datos</dd>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <dt>Condición del cielo</dt>
+            <dd id="condicionCielo" class="dato-clima">Sin datos</dd>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <dt>Velocidad del viento</dt>
+            <dd id="velocidadViento" class="dato-clima">Sin datos</dd>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-4">
+            <dt>Humedad</dt>
+            <dd id="humedadActual" class="dato-clima">Sin datos</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section aria-labelledby="tituloPronostico">
+      <h2 id="tituloPronostico" class="h4">Pronóstico de tres días</h2>
+      <p class="text-body-secondary">Hoy y los dos días siguientes, según la zona horaria de la ciudad. Fechas y temperaturas pendientes de consulta.</p>
+      <div id="pronostico" class="row g-3">
+        <div class="col-12 col-md-4">
+          <article class="card h-100">
+            <div class="card-body">
+              <h3 class="h5">Hoy</h3>
+              <p class="text-body-secondary">Fecha pendiente</p>
+              <dl class="mb-0">
+                <dt>Máxima (°C)</dt>
+                <dd>Sin datos</dd>
+                <dt>Mínima (°C)</dt>
+                <dd class="mb-0">Sin datos</dd>
+              </dl>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-md-4">
+          <article class="card h-100">
+            <div class="card-body">
+              <h3 class="h5">Mañana</h3>
+              <p class="text-body-secondary">Fecha pendiente</p>
+              <dl class="mb-0">
+                <dt>Máxima (°C)</dt>
+                <dd>Sin datos</dd>
+                <dt>Mínima (°C)</dt>
+                <dd class="mb-0">Sin datos</dd>
+              </dl>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-md-4">
+          <article class="card h-100">
+            <div class="card-body">
+              <h3 class="h5">Pasado mañana</h3>
+              <p class="text-body-secondary">Fecha pendiente</p>
+              <dl class="mb-0">
+                <dt>Máxima (°C)</dt>
+                <dd>Sin datos</dd>
+                <dt>Mínima (°C)</dt>
+                <dd class="mb-0">Sin datos</dd>
+              </dl>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <footer class="mt-4 small text-body-secondary">
+      Fuente prevista: Open-Meteo. En esta etapa no se realizan consultas.
+    </footer>
+  </main>
+</body>
+</html>

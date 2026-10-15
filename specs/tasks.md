@@ -14,18 +14,18 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Confirmar carga, errores y recuperación desde el primer fetch.
 - [x] Consultar documentación oficial y confirmar parámetros y campos.
 - [x] Aprobar el plan y autorizar únicamente la creación de los tres specs.
-- [ ] Obtener autorización para implementar la interfaz estática.
+- [x] Obtener autorización para implementar la interfaz estática.
 
 ## 2. Interfaz estática
 
-- [ ] Fijar una versión concreta de Bootstrap CSS por CDN, sin su JavaScript.
-- [ ] Crear index.html con idioma español, viewport y Bootstrap CSS.
-- [ ] Agregar formulario con etiqueta, campo y botón.
-- [ ] Agregar zonas para carga y errores con anuncios accesibles.
-- [ ] Agregar secciones de clima actual y pronóstico.
-- [ ] Crear estilos.css con los ajustes necesarios.
+- [x] Fijar una versión concreta de Bootstrap CSS por CDN, sin su JavaScript.
+- [x] Crear index.html con idioma español, viewport y Bootstrap CSS.
+- [x] Agregar formulario con etiqueta, campo y botón.
+- [x] Agregar zonas para carga y errores con anuncios accesibles.
+- [x] Agregar secciones de clima actual y pronóstico.
+- [x] Crear estilos.css con los ajustes necesarios.
 - [ ] Revisar la interfaz a 320 y 375 píxeles.
-- [ ] Presentar la etapa para revisión.
+- [x] Presentar la etapa para revisión.
 
 ## 3. Búsqueda de ciudades
 
