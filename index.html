@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Weather App: consulta del clima actual y pronóstico de tres días. Interfaz en preparación.">
+  <meta name="description" content="Weather App: búsqueda de ciudades disponible. Clima actual y pronóstico pendientes de implementación.">
   <title>Weather App | Consulta del clima</title>
   <link rel="icon" href="data:,">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -19,11 +19,10 @@
     <section class="card shadow-sm mb-4" aria-labelledby="tituloBusqueda">
       <div class="card-body p-3 p-md-4">
         <h2 id="tituloBusqueda" class="h4">Buscar una ciudad</h2>
-        <p id="avisoInterfaz" class="text-body-secondary">Vista estática: la búsqueda todavía no está disponible. No se han consultado datos meteorológicos.</p>
+        <p id="avisoInterfaz" class="text-body-secondary">Busca una ciudad para identificar su ubicación. La consulta del clima y el pronóstico todavía no están disponibles.</p>
         <form id="formularioBusqueda" aria-describedby="avisoInterfaz">
-          <!-- Se habilitará al incorporar los eventos y la geocodificación. -->
-          <fieldset disabled>
-            <legend class="visually-hidden">Búsqueda de ciudad no disponible todavía</legend>
+          <fieldset>
+            <legend class="visually-hidden">Búsqueda de ciudad</legend>
             <div class="row g-3 align-items-end">
               <div class="col-12 col-md">
                 <label for="campoCiudad" class="form-label">Nombre de la ciudad</label>
@@ -38,7 +37,7 @@
       </div>
     </section>
 
-    <div id="mensajeCarga" class="alert alert-info d-none" role="status" aria-live="polite" aria-atomic="true">Consultando datos…</div>
+    <div id="mensajeCarga" class="alert alert-info d-none" role="status" aria-live="polite" aria-atomic="true">Buscando ciudad…</div>
     <div id="mensajeError" class="alert alert-danger d-none" role="alert" aria-atomic="true"></div>
 
     <section class="card shadow-sm mb-4" aria-labelledby="tituloClima">
@@ -48,7 +47,7 @@
           <h3 id="nombreCiudad" class="h5">Sin ciudad seleccionada</h3>
           <p id="ubicacionCiudad" class="text-body-secondary mb-0">Aquí aparecerán la región y el país, si están disponibles.</p>
         </div>
-        <p class="small text-body-secondary">Sin datos consultados. Las temperaturas se mostrarán en °C, el viento en km/h y la humedad en %.</p>
+        <p class="small text-body-secondary">Consulta del clima pendiente de implementación. Las temperaturas se mostrarán en °C, el viento en km/h y la humedad en %.</p>
         <dl class="row g-3 mb-0">
           <div class="col-12 col-sm-6 col-lg-4">
             <dt>Temperatura</dt>
@@ -76,7 +75,7 @@
 
     <section aria-labelledby="tituloPronostico">
       <h2 id="tituloPronostico" class="h4">Pronóstico de tres días</h2>
-      <p class="text-body-secondary">Hoy y los dos días siguientes, según la zona horaria de la ciudad. Fechas y temperaturas pendientes de consulta.</p>
+      <p class="text-body-secondary">Hoy y los dos días siguientes, según la zona horaria de la ciudad. Pronóstico pendiente de implementación.</p>
       <div id="pronostico" class="row g-3">
         <div class="col-12 col-md-4">
           <article class="card h-100">
@@ -123,8 +122,9 @@
       </div>
     </section>
     <footer class="mt-4 small text-body-secondary">
-      Fuente prevista: Open-Meteo. En esta etapa no se realizan consultas.
+      Búsqueda de ciudades: Open-Meteo, con datos de GeoNames. Clima y pronóstico pendientes.
     </footer>
   </main>
+  <script src="app.js"></script>
 </body>
 </html>

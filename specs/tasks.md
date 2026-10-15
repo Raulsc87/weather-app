@@ -1,7 +1,7 @@
 # Tareas
 
-Las casillas marcadas corresponden únicamente a decisiones y revisiones
-ya realizadas. La implementación y las pruebas siguen pendientes.
+Las casillas marcadas corresponden al trabajo realizado.
+Las tareas de implementación y pruebas sin marcar siguen pendientes.
 Marcar una tarea solo después de realizarla y comprobarla.
 
 ## 1. Revisar especificaciones
@@ -29,21 +29,35 @@ Marcar una tarea solo después de realizarla y comprobarla.
 
 ## 3. Búsqueda de ciudades
 
-- [ ] Crear app.js y enlazarlo desde index.html.
-- [ ] Obtener elementos con getElementById.
-- [ ] Manejar submit con addEventListener y preventDefault.
-- [ ] Validar búsqueda vacía o con espacios sin hacer peticiones.
-- [ ] Activar carga visible con classList y evitar consultas simultáneas.
-- [ ] Consultar geocodificación con fetch, async/await y count=1.
-- [ ] Comprobar respuesta.ok y manejar errores con try/catch.
-- [ ] Comprobar coincidencias y validar las coordenadas.
-- [ ] Mostrar la primera ciudad con región y país cuando existan.
-- [ ] Recuperar controles y retirar la carga mediante finally.
+- [x] Crear app.js y enlazarlo desde index.html.
+- [x] Obtener elementos con getElementById.
+- [x] Manejar submit con addEventListener y preventDefault.
+- [x] Validar búsqueda vacía o con espacios sin hacer peticiones.
+- [x] Activar carga visible con classList y evitar consultas simultáneas.
+- [x] Consultar geocodificación con fetch, async/await y count=1.
+- [x] Comprobar respuesta.ok y manejar errores con try/catch.
+- [x] Comprobar coincidencias y validar las coordenadas.
+- [x] Mostrar la primera ciudad con región y país cuando existan.
+- [x] Recuperar controles y retirar la carga mediante finally.
 - [ ] Probar ciudad real, búsqueda sin coincidencias y campo vacío.
-- [ ] Probar error HTTP mediante simulación controlada.
+- [x] Probar error HTTP mediante simulación controlada.
 - [ ] Probar fallo de conexión y nueva búsqueda después del error.
 - [ ] Observar la carga con red ralentizada.
 - [ ] Registrar resultados reales y presentar la etapa para revisión.
+
+Comprobaciones ejecutadas en la etapa 3:
+- `node --check app.js`: sin errores de sintaxis.
+- Node con DOM y fetch simulados: pasaron campo vacío sin peticiones,
+  recorte del nombre, parámetros, conservación de coordenadas, respuestas
+  sin coincidencias o inválidas, coordenadas fuera de rango o no numéricas,
+  errores HTTP, de red y de JSON, carga, bloqueo de consultas simultáneas
+  y búsqueda correcta después de errores.
+- El primer chequeo simulado falló por una tilde alterada en la entrada de
+  PowerShell; se corrigió el chequeo y la repetición pasó. No fue un fallo
+  de la aplicación.
+- Pendientes: ciudad real contra Open-Meteo, navegador con botón y Enter,
+  desconexión real y carga con red ralentizada. La simulación no sustituye
+  estas pruebas.
 
 ## 4. Clima actual
 
