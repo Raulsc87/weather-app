@@ -25,7 +25,7 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Agregar zonas para carga y errores con anuncios accesibles.
 - [x] Agregar secciones de clima actual y pronóstico.
 - [x] Crear estilos.css con los ajustes necesarios.
-- [ ] Revisar la interfaz a 320 y 375 píxeles.
+- [x] Revisar la interfaz a 320 y 375 píxeles: sin desplazamiento horizontal, superposiciones ni controles recortados (usuario, etapa 5).
 - [x] Presentar la etapa para revisión.
 
 ## 3. Búsqueda de ciudades
@@ -45,7 +45,7 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [ ] Probar campo vacío en navegador con registro explícito.
 - [x] Probar error HTTP mediante simulación controlada.
 - [x] Probar fallo de conexión y nueva búsqueda después del error (usuario; confirmación manual de etapa 4).
-- [ ] Observar la carga con red ralentizada.
+- [x] Observar la carga con red ralentizada (usuario, etapa 5: visible y botón bloqueado hasta terminar).
 - [x] Registrar los dos resultados manuales informados por el usuario y presentar la etapa para revisión.
 
 Pruebas manuales de la etapa 3 realizadas por el usuario:
@@ -67,8 +67,9 @@ Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - El primer chequeo simulado falló por una tilde alterada en la entrada de
   PowerShell; se corrigió el chequeo y la repetición pasó. No fue un fallo
   de la aplicación.
-- Pendientes: navegador con botón y Enter, campo vacío en navegador
-  y carga con red ralentizada. La desconexión real y recuperación fueron
+- Pendientes: navegador con botón y Enter y campo vacío en navegador.
+  La carga con red ralentizada fue confirmada por el usuario en la etapa 5.
+  La desconexión real y recuperación fueron
   confirmadas después por el usuario en la etapa 4. Madrid y sin coincidencias
   ya constan como pruebas manuales del usuario, no del agente.
 
@@ -115,20 +116,55 @@ Pruebas manuales de etapa 4 confirmadas por el usuario, no ejecutadas por el age
 
 Pendientes: contraste de los cinco valores con la respuesta API, campo vacío
 y métodos de envío en navegador con registro explícito, respuestas incompletas
-en navegador, red ralentizada, vista móvil y pronóstico. Estas confirmaciones
-no acreditan criterios adicionales ni la verificación final de la aplicación.
+en navegador y otras verificaciones sin registro. Red lenta, aspectos móviles
+y visualización del pronóstico fueron confirmados después en la etapa 5.
+Estas confirmaciones no acreditan criterios adicionales ni la verificación final.
 
 ## 5. Pronóstico y estados
 
-- [ ] Solicitar máximas y mínimas con forecast_days=3 y timezone=auto.
-- [ ] Mostrar hoy y los dos días siguientes mediante arreglos y un ciclo sencillo.
-- [ ] Mostrar fechas, máximas y mínimas en °C sin desplazamientos por zona horaria.
-- [ ] Completar los estados de carga, éxito y error para toda la aplicación.
-- [ ] Mantener carga y bloqueo de consultas simultáneas durante toda la secuencia.
-- [ ] Verificar recuperación de controles si falla cualquiera de las peticiones.
-- [ ] Evitar resultados anteriores confundidos con una nueva búsqueda.
-- [ ] Comprobar una nueva búsqueda después de un error.
-- [ ] Presentar la etapa para revisión.
+- [x] Solicitar máximas y mínimas con forecast_days=3 y timezone=auto.
+- [x] Implementar hoy y los dos días siguientes mediante arreglos y un ciclo sencillo.
+- [x] Implementar fechas, máximas y mínimas en °C sin desplazamientos por zona horaria.
+- [x] Completar los estados de carga, éxito y error para toda la aplicación.
+- [x] Mantener carga y bloqueo de consultas simultáneas durante toda la secuencia (simulación del agente).
+- [x] Verificar recuperación de controles ante HTTP fallido en ambas peticiones (simulación del agente).
+- [x] Evitar resultados anteriores confundidos con una nueva búsqueda (simulación del agente).
+- [x] Comprobar una nueva búsqueda después de un error (simulación del agente).
+- [x] Presentar la etapa para revisión.
+- [x] Comprobar clima actual y pronóstico de tres días visibles en navegador (usuario).
+- [ ] Comprobar correspondencia exacta de las fechas con hoy y los dos días siguientes en la zona de la ciudad.
+- [ ] Contrastar fechas, máximas y mínimas con la respuesta real de Open-Meteo.
+- [x] Repetir ciudad inexistente, búsqueda posterior y desconexión/reconexión en navegador con pronóstico integrado (usuario).
+
+Comprobaciones ejecutadas por el agente en la etapa 5:
+- Documentación oficial consultada: daily, forecast_days y timezone confirmados.
+- `node --check app.js`: sin errores de sintaxis.
+- Node con DOM/fetch simulados: contrato current+daily, tres tarjetas por
+  índice, cinco datos actuales conservados, unidades, ceros y negativos.
+- Fechas idénticas en UTC, America/Guatemala, America/Los_Angeles y
+  Pacific/Kiritimati; año bisiesto, cambio de mes/año y fechas de cambio
+  de horario de verano. Sin pruebas de navegador.
+- Rechazadas 40 respuestas diarias inválidas: arreglos ausentes o de longitud
+  incorrecta, fechas imposibles o no consecutivas, temperaturas ausentes,
+  cadenas, NaN/Infinity y unidades ausentes o incorrectas.
+- Pasaron errores HTTP de ambas peticiones, red/JSON meteorológicos, ciudad
+  sin coincidencias sin segunda petición, carga y bloqueo durante ambas
+  peticiones, limpieza de todas las tarjetas y búsqueda correcta tras errores.
+- Campo con espacios: sin peticiones y con limpieza de resultados anteriores.
+- El agente no consultó la API real ni ejecutó pruebas de navegador de etapa 5.
+
+Pruebas manuales de etapa 5 confirmadas por el usuario, no ejecutadas por el agente:
+- Clima actual y pronóstico de tres días visibles.
+- Ciudad inexistente limpia clima y pronóstico anteriores.
+- Nueva búsqueda correcta después del error.
+- Error sin conexión y recuperación al reconectar sin recargar.
+- Con red lenta, carga visible y botón bloqueado hasta terminar.
+- Vista móvil a 320 y 375 px sin desplazamiento horizontal,
+  superposiciones ni controles recortados.
+
+Siguen pendientes el contraste de valores y fechas con la respuesta API,
+la correspondencia exacta de los días con la zona de la ciudad y las
+comprobaciones no informadas. No se atribuyen nuevas ejecuciones al agente.
 
 ## 6. Comprobaciones y documentación
 
@@ -136,17 +172,19 @@ Esta sección corresponde a la verificación final con el pronóstico integrado.
 Las repeticiones pendientes no anulan las pruebas parciales ya registradas
 en las etapas 3 y 4. No se han ejecutado pruebas nuevas al reorganizar los specs.
 
-- [ ] Probar una ciudad real en la aplicación completa.
-- [ ] Repetir búsqueda sin coincidencias en la aplicación completa con pronóstico.
+- [x] Probar clima actual y pronóstico visibles en la aplicación completa (usuario, etapa 5).
+- [x] Repetir búsqueda sin coincidencias y limpieza con pronóstico (usuario, etapa 5).
 - [ ] Probar campo vacío y campo con espacios.
 - [ ] Probar una búsqueda de un carácter.
-- [ ] Probar fallo de conexión.
+- [x] Probar fallo de conexión y recuperación al reconectar sin recarga (usuario, etapa 5).
 - [ ] Probar un error HTTP mediante simulación controlada.
 - [ ] Probar una respuesta incompleta mediante simulación controlada.
-- [ ] Observar carga con red ralentizada.
+- [x] Observar carga con red ralentizada y botón bloqueado hasta terminar (usuario, etapa 5).
 - [ ] Comparar fechas, valores y unidades con la respuesta de la API.
-- [ ] Comprobar uso en teléfono y envío con Enter.
-- [ ] Comprobar nueva búsqueda después de un error.
+- [x] Comprobar 320 y 375 px sin desplazamiento horizontal, superposiciones ni controles recortados (usuario, etapa 5).
+- [ ] Comprobar envío con Enter en navegador.
+- [ ] Comprobar legibilidad de todos los textos y mensajes y contenidos de tarjetas sin recortes en teléfono.
+- [x] Comprobar nueva búsqueda después de un error (usuario, etapa 5).
 - [ ] Registrar evidencias reales y correcciones.
 - [ ] Crear README.md con uso local, conexión y fuentes de datos.
 - [ ] Revisar git diff y git status --short.

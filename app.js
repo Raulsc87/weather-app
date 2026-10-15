@@ -10,6 +10,14 @@ const sensacionTermica = document.getElementById('sensacionTermica');
 const condicionCielo = document.getElementById('condicionCielo');
 const velocidadViento = document.getElementById('velocidadViento');
 const humedadActual = document.getElementById('humedadActual');
+const tarjetasPronostico = [];
+for (let indice = 0; indice < 3; indice++) {
+  tarjetasPronostico.push({
+    fecha: document.getElementById('fechaPronostico' + indice),
+    maxima: document.getElementById('maximaPronostico' + indice),
+    minima: document.getElementById('minimaPronostico' + indice)
+  });
+}
 
 // Traducciones de la tabla WMO publicada por Open-Meteo.
 const condicionesWmo = {
@@ -64,6 +72,11 @@ function limpiarResultado() {
   condicionCielo.textContent = 'Sin datos';
   velocidadViento.textContent = 'Sin datos';
   humedadActual.textContent = 'Sin datos';
+  for (let indice = 0; indice < tarjetasPronostico.length; indice++) {
+    tarjetasPronostico[indice].fecha.textContent = 'Fecha pendiente';
+    tarjetasPronostico[indice].maxima.textContent = 'Sin datos';
+    tarjetasPronostico[indice].minima.textContent = 'Sin datos';
+  }
   mensajeError.textContent = '';
   mensajeError.classList.add('d-none');
 }
@@ -118,10 +131,54 @@ function validarClima(actual) {
   }
 }
 
+function esFechaValida(fecha) {
+  if (typeof fecha !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(fecha)) {
+    return false;
+  }
+  const dia = new Date(fecha + 'T00:00:00Z');
+  return Number.isFinite(dia.getTime()) && dia.toISOString().slice(0, 10) === fecha;
+}
+
+function validarPronostico(diario, unidades) {
+  if (!diario || !Array.isArray(diario.time) || diario.time.length !== 3
+      || !Array.isArray(diario.temperature_2m_max) || diario.temperature_2m_max.length !== 3
+      || !Array.isArray(diario.temperature_2m_min) || diario.temperature_2m_min.length !== 3
+      || !unidades || unidades.temperature_2m_max !== '°C' || unidades.temperature_2m_min !== '°C') {
+    throw new Error('El servicio devolvió un pronóstico incompleto o unidades inválidas. Intenta de nuevo.');
+  }
+  for (let indice = 0; indice < 3; indice++) {
+    if (!esFechaValida(diario.time[indice])
+        || !Number.isFinite(diario.temperature_2m_max[indice])
+        || !Number.isFinite(diario.temperature_2m_min[indice])) {
+      throw new Error('El pronóstico contiene fechas o temperaturas inválidas. Intenta de nuevo.');
+    }
+    if (indice > 0) {
+      const anterior = new Date(diario.time[indice - 1] + 'T00:00:00Z');
+      const siguiente = new Date(diario.time[indice] + 'T00:00:00Z');
+      if (siguiente.getTime() - anterior.getTime() !== 86400000) {
+        throw new Error('El pronóstico no contiene tres días consecutivos. Intenta de nuevo.');
+      }
+    }
+  }
+}
+
+function mostrarPronostico(diario) {
+  for (let indice = 0; indice < tarjetasPronostico.length; indice++) {
+    // UTC solo conserva la fecha civil recibida; no convierte la hora de la ciudad.
+    const fecha = new Date(diario.time[indice] + 'T00:00:00Z');
+    tarjetasPronostico[indice].fecha.textContent = fecha.toLocaleDateString('es', {
+      day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'
+    });
+    tarjetasPronostico[indice].maxima.textContent = diario.temperature_2m_max[indice] + ' °C';
+    tarjetasPronostico[indice].minima.textContent = diario.temperature_2m_min[indice] + ' °C';
+  }
+}
+
 async function consultarClima(ciudad) {
   const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + ciudad.latitude
     + '&longitude=' + ciudad.longitude
     + '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m'
+    + '&daily=temperature_2m_max,temperature_2m_min&forecast_days=3'
     + '&temperature_unit=celsius&wind_speed_unit=kmh&timezone=auto';
   const respuesta = await fetch(url);
   if (!respuesta.ok) {
@@ -133,7 +190,8 @@ async function consultarClima(ciudad) {
     throw new Error('El servicio devolvió una respuesta del clima inválida. Intenta de nuevo.');
   }
   validarClima(datos.current);
-  return datos.current;
+  validarPronostico(datos.daily, datos.daily_units);
+  return datos;
 }
 
 function mostrarClima(actual) {
@@ -180,9 +238,10 @@ async function buscarCiudad(evento) {
 
     const ciudad = datos.results[0];
     validarCiudad(ciudad);
-    const actual = await consultarClima(ciudad);
+    const clima = await consultarClima(ciudad);
     mostrarCiudad(ciudad);
-    mostrarClima(actual);
+    mostrarClima(clima.current);
+    mostrarPronostico(clima.daily);
   } catch (error) {
     if (error instanceof TypeError) {
       mostrarError('No se pudo conectar con el servicio. Revisa tu conexión e intenta de nuevo.');

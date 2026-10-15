@@ -8,9 +8,9 @@ solo porque están implementadas.
 ## Estructura y responsabilidades
 
 - index.html: formulario, mensajes, ciudad, clima actual y tarjetas de
-  pronóstico todavía sin datos; Bootstrap CSS 5.3.8 por CDN.
+  pronóstico conectadas al DOM; Bootstrap CSS 5.3.8 por CDN.
 - estilos.css: personalización mínima y ajustes visuales.
-- app.js: eventos, geocodificación, consulta actual, validación y DOM.
+- app.js: eventos, geocodificación, clima actual y pronóstico, validación y DOM.
 - specs/weather-app.md: spec principal en seis secciones.
 - specs/plan.md: detalle operativo de etapas y comprobaciones.
 - specs/tasks.md: seguimiento y evidencia, distinguiendo su procedencia.
@@ -40,19 +40,23 @@ https://api.open-meteo.com/v1/forecast
 - latitude y longitude de la primera coincidencia validada.
 - current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m
 - temperature_unit=celsius, wind_speed_unit=kmh, timezone=auto.
-- Validar current antes de mostrar ciudad y clima.
+- Validar current y daily antes de mostrar ciudad, clima y pronóstico.
 - Traducir weather_code mediante condicionesWmo y contemplar desconocidos.
-- No enviar daily ni solicitar pronóstico en la implementación actual.
+- La misma petición incluye daily y forecast_days para el pronóstico.
 
-### Ampliación aprobada, pendiente
+### Pronóstico implementado en la etapa 5
 
-En la etapa 5 se añadirán a la petición meteorológica:
+La petición meteorológica incluye:
 - daily=temperature_2m_max,temperature_2m_min
 - forecast_days=3, conservando timezone=auto.
 
-Recorrer daily.time, daily.temperature_2m_max y daily.temperature_2m_min
-por índice. Comprobar las unidades diarias y evitar desplazamientos de fecha
-por la zona horaria del navegador. No inventar valores diarios incompletos.
+Validar que daily.time, daily.temperature_2m_max y daily.temperature_2m_min
+sean arreglos de exactamente tres elementos. Comprobar fechas ISO reales y
+consecutivas, temperaturas finitas sin coerción y unidades diarias °C.
+Recorrerlos por índice y llenar las tres tarjetas mediante textContent.
+Interpretar y formatear las fechas con UTC conserva el día civil recibido
+de la API con timezone=auto, independientemente de la zona del navegador.
+No inventar datos incompletos ni convertir ausencias en cero.
 
 Contrato y tipos detallados en la sección 3 de weather-app.md.
 Fuentes consultadas durante las etapas anteriores:
@@ -68,12 +72,12 @@ Fuentes consultadas durante las etapas anteriores:
 5. Activar carga con classList y bloquear controles desde el primer fetch.
 6. Dentro de try, consultar geocodificación con fetch y async/await.
 7. Comprobar respuesta.ok, JSON, coincidencias y coordenadas.
-8. Consultar clima actual manteniendo carga y bloqueo; comprobar respuesta.ok
-   y validar los cinco campos, sin convertir valores ausentes en cero.
-9. Mostrar ciudad y clima válidos con textContent.
+8. Consultar clima actual y pronóstico manteniendo carga y bloqueo; comprobar
+   respuesta.ok y validar los cinco campos actuales y los arreglos diarios.
+9. Mostrar ciudad, clima y tres días válidos con textContent y un ciclo.
 10. Manejar errores con catch y recuperar controles mediante finally.
-11. En la etapa 5, ampliar la validación y presentación al pronóstico,
-    usando arreglos y ciclos sencillos, sin acortar la carga de la secuencia.
+11. Limpiar también las fechas y temperaturas diarias al iniciar otra búsqueda;
+    un error de validación no deja resultados parciales ni datos anteriores.
 
 Usar funciones cortas en español y camelCase, const y let. No insertar datos
 externos como HTML sin validarlos.
@@ -81,7 +85,9 @@ externos como HTML sin validarlos.
 ## Etapas y estado
 
 1. Specs aprobados y reorganización en seis secciones aprobada.
-2. Interfaz implementada. Revisión móvil a 320 y 375 px pendiente.
+2. Interfaz implementada. Usuario confirma vista móvil a 320 y 375 px sin
+   desplazamiento horizontal, superposiciones ni controles recortados.
+   Legibilidad completa y otras comprobaciones no confirmadas siguen pendientes.
 3. Búsqueda implementada, con simulaciones del agente registradas.
    El usuario comprobó Madrid y una búsqueda sin coincidencias en navegador
    y proporcionó capturas, según su confirmación. No son pruebas del agente.
@@ -91,13 +97,17 @@ externos como HTML sin validarlos.
    error sin conexión con fin de carga y controles recuperados; búsqueda
    correcta al reconectar sin recargar. Contraste de valores con la respuesta
    API y otras comprobaciones no registradas siguen pendientes.
-5. Pronóstico pendiente de implementación y autorización.
+5. Pronóstico autorizado e implementado; sintaxis y simulaciones registradas.
+   Usuario confirma clima y tres días visibles, limpieza tras ciudad inexistente,
+   búsqueda posterior correcta, error sin conexión y recuperación al reconectar
+   sin recarga, carga visible y botón bloqueado con red lenta, y vista móvil.
+   Contraste de valores y fechas con la respuesta API pendiente.
 6. Verificación completa y documentación pendientes.
 
 Carga, errores y recuperación se adelantaron al primer fetch para probar
 cada etapa independientemente, incluida la simulación de fallos de conexión.
-La carga actual cubre geocodificación y meteorología; en la etapa 5 cubrirá
-también la presentación del pronóstico.
+La carga cubre geocodificación, meteorología y presentación del pronóstico;
+finally restaura los controles tanto en éxito como en error.
 
 Cada nueva etapa requiere autorización y revisión. No crear todos los
 archivos de una vez ni realizar commits sin indicación explícita.
@@ -121,9 +131,13 @@ navegador. Bootstrap por CDN y Open-Meteo requieren conexión.
 - Las cinco comprobaciones manuales de la etapa 4 constan por confirmación
   del usuario en tasks.md, no como ejecución del agente. Incluyen clima
   actual, limpieza, reintento, desconexión y reconexión sin recarga.
-- Mantener pendiente el contraste de los valores con la respuesta API.
+- Las seis comprobaciones manuales de etapa 5 se registran por confirmación
+  del usuario en tasks.md, no como pruebas ejecutadas por el agente.
+- Mantener pendiente el contraste de valores y fechas con la respuesta API
+  y la correspondencia exacta de los días con la zona de la ciudad.
 - Usar las herramientas del navegador para las comprobaciones aún pendientes:
-  contraste de respuestas, red ralentizada y vista a 320/375 px.
+  contraste de respuestas, botón/Enter por separado y aspectos móviles
+  no confirmados. Red lenta y los aspectos móviles informados ya tienen registro.
 - Simular errores HTTP y respuestas incompletas de forma controlada; no
   depender de que Open-Meteo falle realmente.
 - Registrar resultado, origen y limitaciones; las simulaciones no sustituyen

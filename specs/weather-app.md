@@ -20,18 +20,21 @@ una revisión.
 - Formulario de búsqueda y primera coincidencia de ciudad.
 - Identificación de ciudad, región y país cuando están disponibles.
 - Temperatura, sensación térmica, cielo, viento y humedad actuales.
+- Pronóstico de tres días en las tarjetas existentes, con fechas, máximas y mínimas.
 - Descripciones WMO en español y alternativa para códigos desconocidos.
 - Validación, carga, bloqueo de búsquedas simultáneas y recuperación de errores.
-- Estructura adaptable con Bootstrap; revisión visual móvil pendiente.
+- Estructura adaptable con Bootstrap; usuario confirma 320 y 375 px sin
+  desplazamiento horizontal, superposiciones ni controles recortados.
 
 Implementado no significa validado completamente en condiciones reales.
 
 ### Pendiente
 
-- Consulta y presentación del pronóstico; las tres tarjetas son espacios sin datos.
+- Contraste de fechas y temperaturas del pronóstico con la API y verificación
+  exacta de hoy y los dos días siguientes en la zona de la ciudad.
 - Contraste de valores actuales con la respuesta de la API y comprobaciones
   de navegador aún sin registro (por ejemplo, botón y Enter por separado).
-- Pruebas de red ralentizada y vista móvil con registro.
+- Otras comprobaciones no confirmadas, como legibilidad de todos los mensajes en móvil.
 - Documentación final de uso.
 
 ### Fuera de alcance
@@ -85,20 +88,23 @@ temperature_unit=celsius, wind_speed_unit=kmh y timezone=auto.
 Los valores ausentes o inválidos producen un error, no se convierten en
 cero. Un cero numérico válido sí se muestra.
 
-#### Pronóstico: aprobado, pendiente de implementación
+#### Pronóstico: implementado y visualización comprobada por el usuario
 
-Se añadirán daily=temperature_2m_max,temperature_2m_min y forecast_days=3,
+La petición meteorológica incluye daily=temperature_2m_max,temperature_2m_min y forecast_days=3,
 conservando timezone=auto, requerido para datos diarios.
 
-| Campo | Tipo | Uso previsto |
+| Campo | Tipo | Uso |
 | --- | --- | --- |
 | daily.time | Arreglo de fechas ISO | Hoy y los dos días siguientes en la ciudad. |
 | daily.temperature_2m_max | Arreglo de números | Máximas en °C. |
 | daily.temperature_2m_min | Arreglo de números | Mínimas en °C. |
 | daily_units | Objeto | Unidades de los datos diarios. |
 
-Los arreglos se relacionarán por índice. No se inventarán datos ni se
-desplazarán las fechas por la zona horaria del navegador.
+Los tres arreglos deben tener exactamente tres elementos. Se validan fechas
+ISO YYYY-MM-DD reales y consecutivas, temperaturas numéricas finitas y unidades
+diarias °C. Se relacionan por índice, sin convertir ausencias en cero.
+Las fechas se interpretan y formatean en UTC para conservar la fecha civil
+que la API entrega con timezone=auto, no para convertir la hora de la ciudad.
 
 Ambos servicios documentan errores HTTP con campos error y reason.
 La aplicación comprueba respuesta.ok y muestra mensajes comprensibles.
@@ -115,37 +121,39 @@ Fuentes oficiales consultadas durante las etapas anteriores:
 | ciudadSeleccionada | null o { nombre, latitud, longitud }, correspondiente a los resultados mostrados. |
 | condicionesWmo | Objeto que relaciona códigos numéricos con descripciones en español. |
 | ubicacion | Arreglo local con región y país disponibles para formar el texto. |
-| actual | Referencia temporal al objeto externo current validado; no es un modelo interno renombrado. |
+| clima | Referencia temporal a la respuesta meteorológica validada, con current, daily y daily_units. |
+| tarjetasPronostico | Arreglo de tres objetos con referencias DOM: fecha, maxima y minima. No almacena datos de la API. |
 
 La región y el país se muestran, pero no se guardan dentro de
 ciudadSeleccionada. Al comenzar una búsqueda se borran la selección y los
-datos anteriores. Ciudad y clima se presentan después de validar ambas
-respuestas.
+datos anteriores, incluidas las tres tarjetas. Ciudad, clima y pronóstico
+se presentan después de validar ambas respuestas y todos sus datos.
 
-No se define todavía una nueva estructura interna de pronóstico: el acuerdo
-es recorrer los arreglos diarios con un ciclo sencillo.
+El parámetro local diario referencia el objeto externo daily sin renombrar
+sus campos. Un ciclo sencillo recorre sus arreglos y llena las referencias
+DOM de tarjetasPronostico; no hay almacenamiento persistente adicional.
 
 ## 4. Plan de implementación
 
 | Etapa | Estado |
 | --- | --- |
 | 1. Specs | Preparados y aprobados; reorganización en seis secciones aprobada. |
-| 2. Interfaz estática | Implementada; revisión visual a 320 y 375 px pendiente. |
+| 2. Interfaz estática | Implementada; usuario confirma 320 y 375 px sin desplazamiento horizontal, superposiciones ni controles recortados. Otras verificaciones móviles no confirmadas siguen pendientes. |
 | 3. Geocodificación | Implementada; Madrid y búsqueda sin coincidencias comprobadas manualmente por el usuario, con capturas. Simulaciones del agente registradas en tasks.md. |
 | 4. Clima actual | Implementado; usuario confirma Madrid con cinco datos, unidades y cielo en español, limpieza ante ciudad inexistente, reintento con Quetzaltenango, desconexión y recuperación al reconectar sin recarga. Contraste con respuesta API pendiente. |
-| 5. Pronóstico | Pendiente. |
+| 5. Pronóstico | Implementado; simulaciones del agente y pruebas manuales del usuario registradas: visualización, limpieza, reintento, desconexión/reconexión, red lenta y vista móvil. Contraste con API pendiente. |
 | 6. Verificación final y documentación | Pendiente. |
 
 Desde el primer fetch se utilizan carga, comprobación HTTP y
-try/catch/finally. El bloqueo actual cubre geocodificación y meteorología.
+try/catch/finally. El bloqueo cubre geocodificación, meteorología y presentación
+del clima actual y pronóstico.
 
 Mantener getElementById, eventos, preventDefault, textContent, classList,
-fetch, async/await y funciones sencillas en español. Incorporar arreglos y
-ciclos al pronóstico.
+fetch, async/await y funciones sencillas en español, con arreglos y ciclos
+en el pronóstico.
 
 El detalle operativo está en plan.md; las tareas y evidencias, en tasks.md.
-Cada nueva etapa requiere autorización; esta reorganización no autoriza
-implementar funcionalidades.
+La etapa 5 fue autorizada. Avanzar a otra etapa requiere nueva autorización.
 
 ## 5. Criterios de aceptación
 
@@ -154,7 +162,7 @@ implementado. Se identifica el origen de la evidencia cuando está marcada.
 Las comprobaciones simuladas no sustituyen la aceptación real en navegador.
 Las capturas de Madrid y sin coincidencias se registran según lo informado
 por el usuario, sin atribuir su ejecución al agente ni inventar rutas.
-Las pruebas manuales adicionales de la etapa 4 se registran por confirmación
+Las pruebas manuales adicionales de las etapas 4 y 5 se registran por confirmación
 del usuario en tasks.md; no fueron ejecutadas por el agente.
 
 ### R1. Buscar una ciudad
@@ -187,14 +195,16 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 
 ### R3. Mostrar el pronóstico
 
-- [ ] Mostrar hoy según la zona horaria de la ciudad.
-- [ ] Mostrar el día siguiente según la zona horaria de la ciudad.
-- [ ] Mostrar el segundo día siguiente según la zona horaria de la ciudad.
-- [ ] Mostrar una fecha por cada día sin desplazamientos por la zona del navegador.
-- [ ] Mostrar máxima en °C por cada día.
-- [ ] Mostrar mínima en °C por cada día.
-- [ ] Relacionar fechas, máximas y mínimas por el mismo índice.
-- [ ] Informar de datos diarios incompletos sin inventar valores.
+- [x] Mostrar clima actual y pronóstico de tres días en navegador (prueba manual del usuario, etapa 5).
+- [ ] Comprobar con API real que el primer día es hoy en la ciudad.
+- [ ] Comprobar con API real que el segundo día es mañana en la ciudad.
+- [ ] Comprobar con API real que el tercer día es pasado mañana en la ciudad.
+- [x] Mostrar una fecha por cada día sin desplazamientos por la zona del navegador (simulación del agente en cuatro zonas, etapa 5).
+- [x] Mostrar máxima en °C por cada día (DOM/fetch simulados, etapa 5).
+- [x] Mostrar mínima en °C por cada día (DOM/fetch simulados, etapa 5).
+- [x] Relacionar fechas, máximas y mínimas por el mismo índice (simulación del agente, etapa 5).
+- [x] Informar de datos diarios incompletos sin inventar valores (40 respuestas inválidas simuladas, etapa 5).
+- [ ] Contrastar fechas, máximas y mínimas con la respuesta real en navegador.
 
 ### R4. Mostrar el estado de carga
 
@@ -203,8 +213,9 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 - [x] Impedir consultas simultáneas durante la secuencia actual (simulación del agente, etapa 4).
 - [x] Retirar carga y recuperar controles mediante finally tras éxito (simulación del agente).
 - [x] Retirar carga y recuperar controles tras error (simulación del agente de finally y prueba manual del usuario sin conexión).
-- [ ] Observar la carga visible en navegador con red ralentizada.
-- [ ] Verificar la carga hasta finalizar el pronóstico una vez implementado.
+- [x] Observar carga visible y botón bloqueado hasta terminar con red ralentizada (prueba manual del usuario, etapa 5).
+- [x] Verificar la carga y bloqueo hasta presentar el pronóstico (DOM/fetch simulados, etapa 5).
+- [x] Verificar búsqueda y recuperación de errores en navegador con pronóstico integrado (usuario: nueva búsqueda tras error y reconexión sin recarga).
 
 ### R5. Validar y permitir recuperación
 
@@ -216,6 +227,7 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 - [x] Manejar un fallo de red simulado sin afirmar una causa de conexión específica (simulación del agente).
 - [x] Permitir búsqueda correcta después de errores simulados (simulación del agente).
 - [x] Limpiar ciudad y clima anteriores antes de una nueva búsqueda (simulación del agente; usuario confirma limpieza ante ciudad inexistente).
+- [x] Limpiar clima y pronóstico anteriores ante ciudad inexistente (prueba manual del usuario, etapa 5).
 - [x] Comprobar el mensaje y recuperación ante desconexión real en navegador (usuario: error, fin de carga y controles recuperados).
 - [x] Comprobar una nueva búsqueda tras error en navegador (usuario: Quetzaltenango después de ciudad inexistente).
 - [x] Buscar correctamente al reconectar sin recargar la página (prueba manual del usuario).
@@ -223,10 +235,12 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 ### R6. Funcionar en teléfonos
 
 - [ ] Verificar en navegador la configuración viewport para pantallas móviles.
-- [ ] Verificar a 320 px que no hay desplazamiento horizontal.
-- [ ] Verificar a 375 px que no hay desplazamiento horizontal.
+- [x] Verificar a 320 px que no hay desplazamiento horizontal (prueba manual del usuario).
+- [x] Verificar a 375 px que no hay desplazamiento horizontal (prueba manual del usuario).
 - [ ] Verificar textos, mensajes y etiquetas legibles en teléfono.
-- [ ] Verificar formulario y tarjetas sin superposiciones ni recortes en teléfono.
+- [x] Verificar ausencia de superposiciones a 320 y 375 px (prueba manual del usuario).
+- [x] Verificar controles sin recortes a 320 y 375 px (prueba manual del usuario).
+- [ ] Verificar específicamente que las tarjetas y sus contenidos no presentan recortes en teléfono.
 
 ## 6. Decisiones tomadas y descartadas
 

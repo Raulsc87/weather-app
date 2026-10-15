@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Weather App: búsqueda de ciudades y clima actual disponibles. Pronóstico pendiente de implementación.">
+  <meta name="description" content="Weather App: busca una ciudad y consulta su clima actual y el pronóstico de tres días.">
   <title>Weather App | Consulta del clima</title>
   <link rel="icon" href="data:,">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -13,13 +13,13 @@
   <main class="container py-4 py-md-5">
     <header class="mb-4">
       <h1 class="fw-bold">Weather App</h1>
-      <p class="text-body-secondary mb-0">Consulta el clima actual de una ciudad. El pronóstico de tres días estará disponible en una próxima etapa.</p>
+      <p class="text-body-secondary mb-0">Consulta el clima actual de una ciudad y el pronóstico de hoy y los dos días siguientes.</p>
     </header>
 
     <section class="card shadow-sm mb-4" aria-labelledby="tituloBusqueda">
       <div class="card-body p-3 p-md-4">
         <h2 id="tituloBusqueda" class="h4">Buscar una ciudad</h2>
-        <p id="avisoInterfaz" class="text-body-secondary">Busca una ciudad para consultar su ubicación y clima actual. El pronóstico todavía no está disponible.</p>
+        <p id="avisoInterfaz" class="text-body-secondary">Busca una ciudad para consultar su ubicación, clima actual y pronóstico de tres días.</p>
         <form id="formularioBusqueda" aria-describedby="avisoInterfaz">
           <fieldset>
             <legend class="visually-hidden">Búsqueda de ciudad</legend>
@@ -37,7 +37,7 @@
       </div>
     </section>
 
-    <div id="mensajeCarga" class="alert alert-info d-none" role="status" aria-live="polite" aria-atomic="true">Buscando ciudad y consultando el clima actual…</div>
+    <div id="mensajeCarga" class="alert alert-info d-none" role="status" aria-live="polite" aria-atomic="true">Buscando ciudad y consultando el clima y pronóstico…</div>
     <div id="mensajeError" class="alert alert-danger d-none" role="alert" aria-atomic="true"></div>
 
     <section class="card shadow-sm mb-4" aria-labelledby="tituloClima">
@@ -75,18 +75,18 @@
 
     <section aria-labelledby="tituloPronostico">
       <h2 id="tituloPronostico" class="h4">Pronóstico de tres días</h2>
-      <p class="text-body-secondary">Hoy y los dos días siguientes, según la zona horaria de la ciudad. Pronóstico pendiente de implementación.</p>
+      <p class="text-body-secondary">Hoy y los dos días siguientes, según la zona horaria de la ciudad. Busca una ciudad para consultar fechas, máximas y mínimas.</p>
       <div id="pronostico" class="row g-3">
         <div class="col-12 col-md-4">
           <article class="card h-100">
             <div class="card-body">
               <h3 class="h5">Hoy</h3>
-              <p class="text-body-secondary">Fecha pendiente</p>
+              <p id="fechaPronostico0" class="text-body-secondary">Fecha pendiente</p>
               <dl class="mb-0">
                 <dt>Máxima (°C)</dt>
-                <dd>Sin datos</dd>
+                <dd id="maximaPronostico0">Sin datos</dd>
                 <dt>Mínima (°C)</dt>
-                <dd class="mb-0">Sin datos</dd>
+                <dd id="minimaPronostico0" class="mb-0">Sin datos</dd>
               </dl>
             </div>
           </article>
@@ -95,12 +95,12 @@
           <article class="card h-100">
             <div class="card-body">
               <h3 class="h5">Mañana</h3>
-              <p class="text-body-secondary">Fecha pendiente</p>
+              <p id="fechaPronostico1" class="text-body-secondary">Fecha pendiente</p>
               <dl class="mb-0">
                 <dt>Máxima (°C)</dt>
-                <dd>Sin datos</dd>
+                <dd id="maximaPronostico1">Sin datos</dd>
                 <dt>Mínima (°C)</dt>
-                <dd class="mb-0">Sin datos</dd>
+                <dd id="minimaPronostico1" class="mb-0">Sin datos</dd>
               </dl>
             </div>
           </article>
@@ -109,12 +109,12 @@
           <article class="card h-100">
             <div class="card-body">
               <h3 class="h5">Pasado mañana</h3>
-              <p class="text-body-secondary">Fecha pendiente</p>
+              <p id="fechaPronostico2" class="text-body-secondary">Fecha pendiente</p>
               <dl class="mb-0">
                 <dt>Máxima (°C)</dt>
-                <dd>Sin datos</dd>
+                <dd id="maximaPronostico2">Sin datos</dd>
                 <dt>Mínima (°C)</dt>
-                <dd class="mb-0">Sin datos</dd>
+                <dd id="minimaPronostico2" class="mb-0">Sin datos</dd>
               </dl>
             </div>
           </article>
@@ -122,7 +122,7 @@
       </div>
     </section>
     <footer class="mt-4 small text-body-secondary">
-      Clima actual y búsqueda de ciudades: Open-Meteo, con datos de ubicación de GeoNames. Pronóstico pendiente.
+      Clima actual y pronóstico: Open-Meteo. Datos de ubicación: GeoNames mediante Open-Meteo.
     </footer>
   </main>
   <script src="app.js"></script>
