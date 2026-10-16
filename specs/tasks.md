@@ -15,6 +15,7 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Consultar documentación oficial y confirmar parámetros y campos.
 - [x] Aprobar el plan y autorizar únicamente la creación de los tres specs.
 - [x] Obtener autorización para implementar la interfaz estática.
+- [x] Aprobar la reorganización del spec en seis secciones y sus ajustes.
 
 ## 2. Interfaz estática
 
@@ -39,13 +40,24 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Comprobar coincidencias y validar las coordenadas.
 - [x] Mostrar la primera ciudad con región y país cuando existan.
 - [x] Recuperar controles y retirar la carga mediante finally.
-- [ ] Probar ciudad real, búsqueda sin coincidencias y campo vacío.
+- [x] Probar Madrid en navegador (usuario; captura proporcionada según su confirmación).
+- [x] Probar búsqueda sin coincidencias en navegador (usuario; captura proporcionada según su confirmación).
+- [ ] Probar campo vacío en navegador con registro explícito.
 - [x] Probar error HTTP mediante simulación controlada.
 - [ ] Probar fallo de conexión y nueva búsqueda después del error.
 - [ ] Observar la carga con red ralentizada.
-- [ ] Registrar resultados reales y presentar la etapa para revisión.
+- [x] Registrar los dos resultados manuales informados por el usuario y presentar la etapa para revisión.
 
-Comprobaciones ejecutadas en la etapa 3:
+Pruebas manuales de la etapa 3 realizadas por el usuario:
+- Madrid: búsqueda comprobada en navegador, con captura proporcionada,
+  según confirmación del usuario. No fue ejecutada por el agente.
+- Búsqueda sin coincidencias: resultado comprobado en navegador, con captura
+  proporcionada, según confirmación del usuario. No fue ejecutada por el agente.
+- No se inventan nombres de archivo ni rutas de las capturas. Estos registros
+  no acreditan clima real, desconexión, red lenta, vista móvil ni los métodos
+  específicos de envío con botón o Enter.
+
+Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - `node --check app.js`: sin errores de sintaxis.
 - Node con DOM y fetch simulados: pasaron campo vacío sin peticiones,
   recorte del nombre, parámetros, conservación de coordenadas, respuestas
@@ -55,21 +67,40 @@ Comprobaciones ejecutadas en la etapa 3:
 - El primer chequeo simulado falló por una tilde alterada en la entrada de
   PowerShell; se corrigió el chequeo y la repetición pasó. No fue un fallo
   de la aplicación.
-- Pendientes: ciudad real contra Open-Meteo, navegador con botón y Enter,
-  desconexión real y carga con red ralentizada. La simulación no sustituye
-  estas pruebas.
+- Pendientes: navegador con botón y Enter, campo vacío en navegador,
+  desconexión real y carga con red ralentizada. Madrid y sin coincidencias
+  ya constan como pruebas manuales del usuario, no del agente.
 
 ## 4. Clima actual
 
-- [ ] Solicitar los cinco campos actuales acordados.
-- [ ] Extender carga, comprobación HTTP y manejo de errores a la petición
+- [x] Solicitar los cinco campos actuales acordados.
+- [x] Extender carga, comprobación HTTP y manejo de errores a la petición
       meteorológica, recuperando controles al terminar toda la búsqueda.
-- [ ] Validar los datos necesarios sin convertir valores ausentes en cero.
-- [ ] Mostrar valores y unidades con textContent.
-- [ ] Traducir los códigos WMO a español.
-- [ ] Contemplar códigos desconocidos.
-- [ ] Comprobar éxito y recuperación tras fallo de la petición meteorológica.
-- [ ] Presentar la etapa para revisión.
+- [x] Validar los datos necesarios sin convertir valores ausentes en cero.
+- [x] Mostrar valores y unidades con textContent.
+- [x] Traducir los códigos WMO a español.
+- [x] Contemplar códigos desconocidos.
+- [x] Comprobar éxito y recuperación tras fallo de la petición meteorológica con DOM/fetch simulados (agente).
+- [ ] Comprobar clima actual con Open-Meteo real y contrastar los cinco datos en navegador.
+- [x] Presentar la etapa para revisión.
+
+Comprobaciones documentales, de sintaxis y simuladas del agente en la etapa 4:
+- Documentación oficial de Open-Meteo consultada para confirmar los cinco
+  campos de current, unidades y tabla WMO, incluido el código 97.
+- `node --check app.js`: sin errores de sintaxis.
+- Node con DOM y fetch simulados: contrato actual sin daily, unidades,
+  ceros válidos, temperaturas negativas, traducción de los 29 códigos WMO
+  documentados y descripción alternativa para un código desconocido.
+- Se rechazaron 25 variantes de campos nulos, ausentes, cadenas, NaN o
+  Infinity, además de respuestas incompletas, humedad fuera de rango y
+  viento negativo. No se mostraron datos anteriores ni ceros inventados.
+- Pasaron errores HTTP de ambas peticiones y errores de red y JSON de la
+  petición meteorológica. Se comprobó carga y bloqueo durante la segunda
+  petición, limpieza previa, recuperación y búsqueda correcta tras errores.
+- Campo vacío: sin peticiones y con limpieza de los resultados anteriores.
+- Pendientes: consulta real del clima contra Open-Meteo y comprobaciones
+  en navegador, incluida desconexión y red ralentizada. Estas simulaciones
+  no sustituyen las pruebas de interfaz ni las de conexión real.
 
 ## 5. Pronóstico y estados
 
@@ -85,8 +116,12 @@ Comprobaciones ejecutadas en la etapa 3:
 
 ## 6. Comprobaciones y documentación
 
+Esta sección corresponde a la verificación final con el pronóstico integrado.
+Las repeticiones pendientes no anulan las pruebas parciales ya registradas
+en las etapas 3 y 4. No se han ejecutado pruebas nuevas al reorganizar los specs.
+
 - [ ] Probar una ciudad real en la aplicación completa.
-- [ ] Probar una búsqueda sin coincidencias.
+- [ ] Repetir búsqueda sin coincidencias en la aplicación completa con pronóstico.
 - [ ] Probar campo vacío y campo con espacios.
 - [ ] Probar una búsqueda de un carácter.
 - [ ] Probar fallo de conexión.
