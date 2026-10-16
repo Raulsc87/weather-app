@@ -44,7 +44,7 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Probar búsqueda sin coincidencias en navegador (usuario; captura proporcionada según su confirmación).
 - [ ] Probar campo vacío en navegador con registro explícito.
 - [x] Probar error HTTP mediante simulación controlada.
-- [ ] Probar fallo de conexión y nueva búsqueda después del error.
+- [x] Probar fallo de conexión y nueva búsqueda después del error (usuario; confirmación manual de etapa 4).
 - [ ] Observar la carga con red ralentizada.
 - [x] Registrar los dos resultados manuales informados por el usuario y presentar la etapa para revisión.
 
@@ -67,8 +67,9 @@ Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - El primer chequeo simulado falló por una tilde alterada en la entrada de
   PowerShell; se corrigió el chequeo y la repetición pasó. No fue un fallo
   de la aplicación.
-- Pendientes: navegador con botón y Enter, campo vacío en navegador,
-  desconexión real y carga con red ralentizada. Madrid y sin coincidencias
+- Pendientes: navegador con botón y Enter, campo vacío en navegador
+  y carga con red ralentizada. La desconexión real y recuperación fueron
+  confirmadas después por el usuario en la etapa 4. Madrid y sin coincidencias
   ya constan como pruebas manuales del usuario, no del agente.
 
 ## 4. Clima actual
@@ -81,7 +82,12 @@ Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - [x] Traducir los códigos WMO a español.
 - [x] Contemplar códigos desconocidos.
 - [x] Comprobar éxito y recuperación tras fallo de la petición meteorológica con DOM/fetch simulados (agente).
-- [ ] Comprobar clima actual con Open-Meteo real y contrastar los cinco datos en navegador.
+- [x] Comprobar visualización del clima actual real en navegador (usuario: Madrid, cinco datos con unidades y cielo en español).
+- [ ] Contrastar los cinco datos mostrados con la respuesta de Open-Meteo.
+- [x] Comprobar aviso y limpieza de resultados ante ciudad inexistente (usuario).
+- [x] Comprobar búsqueda de Quetzaltenango después del error (usuario).
+- [x] Comprobar error, fin de carga y recuperación de controles sin conexión (usuario).
+- [x] Comprobar búsqueda correcta al reconectar sin recargar (usuario).
 - [x] Presentar la etapa para revisión.
 
 Comprobaciones documentales, de sintaxis y simuladas del agente en la etapa 4:
@@ -98,9 +104,19 @@ Comprobaciones documentales, de sintaxis y simuladas del agente en la etapa 4:
   petición meteorológica. Se comprobó carga y bloqueo durante la segunda
   petición, limpieza previa, recuperación y búsqueda correcta tras errores.
 - Campo vacío: sin peticiones y con limpieza de los resultados anteriores.
-- Pendientes: consulta real del clima contra Open-Meteo y comprobaciones
-  en navegador, incluida desconexión y red ralentizada. Estas simulaciones
-  no sustituyen las pruebas de interfaz ni las de conexión real.
+- Las simulaciones no sustituyen pruebas de interfaz ni de conexión real.
+
+Pruebas manuales de etapa 4 confirmadas por el usuario, no ejecutadas por el agente:
+- Madrid muestra los cinco datos actuales con unidades y cielo en español.
+- Una ciudad inexistente muestra un aviso y limpia los resultados anteriores.
+- Una nueva búsqueda de Quetzaltenango funciona después del error.
+- Sin conexión aparece un error, termina la carga y se recuperan los controles.
+- Al reconectar se puede buscar correctamente sin recargar la página.
+
+Pendientes: contraste de los cinco valores con la respuesta API, campo vacío
+y métodos de envío en navegador con registro explícito, respuestas incompletas
+en navegador, red ralentizada, vista móvil y pronóstico. Estas confirmaciones
+no acreditan criterios adicionales ni la verificación final de la aplicación.
 
 ## 5. Pronóstico y estados
 

@@ -85,8 +85,12 @@ externos como HTML sin validarlos.
 3. Búsqueda implementada, con simulaciones del agente registradas.
    El usuario comprobó Madrid y una búsqueda sin coincidencias en navegador
    y proporcionó capturas, según su confirmación. No son pruebas del agente.
-4. Clima actual implementado. Sintaxis y simulaciones registradas; pruebas
-   reales del clima y comprobación completa en navegador pendientes.
+4. Clima actual implementado. Sintaxis y simulaciones registradas. El usuario
+   confirmó en navegador Madrid con cinco datos, unidades y cielo en español;
+   aviso y limpieza ante ciudad inexistente; Quetzaltenango después del error;
+   error sin conexión con fin de carga y controles recuperados; búsqueda
+   correcta al reconectar sin recargar. Contraste de valores con la respuesta
+   API y otras comprobaciones no registradas siguen pendientes.
 5. Pronóstico pendiente de implementación y autorización.
 6. Verificación completa y documentación pendientes.
 
@@ -114,9 +118,12 @@ navegador. Bootstrap por CDN y Open-Meteo requieren conexión.
 - Distinguir implementación, simulación del agente y prueba manual del usuario.
 - Las capturas de Madrid y sin coincidencias respaldan esos resultados,
   no el clima real, desconexión, red lenta, Enter o diseño móvil.
-- Mantener pendientes las pruebas reales del clima actual.
-- Usar las herramientas del navegador para observar peticiones, desconectar
-  la red, ralentizarla y comprobar 320/375 px cuando se autoricen las pruebas.
+- Las cinco comprobaciones manuales de la etapa 4 constan por confirmación
+  del usuario en tasks.md, no como ejecución del agente. Incluyen clima
+  actual, limpieza, reintento, desconexión y reconexión sin recarga.
+- Mantener pendiente el contraste de los valores con la respuesta API.
+- Usar las herramientas del navegador para las comprobaciones aún pendientes:
+  contraste de respuestas, red ralentizada y vista a 320/375 px.
 - Simular errores HTTP y respuestas incompletas de forma controlada; no
   depender de que Open-Meteo falle realmente.
 - Registrar resultado, origen y limitaciones; las simulaciones no sustituyen

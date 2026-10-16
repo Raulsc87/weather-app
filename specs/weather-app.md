@@ -29,8 +29,9 @@ Implementado no significa validado completamente en condiciones reales.
 ### Pendiente
 
 - Consulta y presentación del pronóstico; las tres tarjetas son espacios sin datos.
-- Pruebas reales del clima actual y comprobaciones completas en navegador.
-- Pruebas de desconexión, red ralentizada y vista móvil con registro.
+- Contraste de valores actuales con la respuesta de la API y comprobaciones
+  de navegador aún sin registro (por ejemplo, botón y Enter por separado).
+- Pruebas de red ralentizada y vista móvil con registro.
 - Documentación final de uso.
 
 ### Fuera de alcance
@@ -65,7 +66,7 @@ Se usa la primera coincidencia. Un carácter no devuelve resultados;
 dos caracteres permiten coincidencia exacta. Las traducciones de nombres
 dependen de su disponibilidad.
 
-#### Clima actual: implementado, pruebas reales pendientes
+#### Clima actual: implementado y visualización comprobada por el usuario
 
 Endpoint: https://api.open-meteo.com/v1/forecast
 
@@ -131,7 +132,7 @@ es recorrer los arreglos diarios con un ciclo sencillo.
 | 1. Specs | Preparados y aprobados; reorganización en seis secciones aprobada. |
 | 2. Interfaz estática | Implementada; revisión visual a 320 y 375 px pendiente. |
 | 3. Geocodificación | Implementada; Madrid y búsqueda sin coincidencias comprobadas manualmente por el usuario, con capturas. Simulaciones del agente registradas en tasks.md. |
-| 4. Clima actual | Implementado; simulaciones registradas, pruebas reales pendientes. |
+| 4. Clima actual | Implementado; usuario confirma Madrid con cinco datos, unidades y cielo en español, limpieza ante ciudad inexistente, reintento con Quetzaltenango, desconexión y recuperación al reconectar sin recarga. Contraste con respuesta API pendiente. |
 | 5. Pronóstico | Pendiente. |
 | 6. Verificación final y documentación | Pendiente. |
 
@@ -153,6 +154,8 @@ implementado. Se identifica el origen de la evidencia cuando está marcada.
 Las comprobaciones simuladas no sustituyen la aceptación real en navegador.
 Las capturas de Madrid y sin coincidencias se registran según lo informado
 por el usuario, sin atribuir su ejecución al agente ni inventar rutas.
+Las pruebas manuales adicionales de la etapa 4 se registran por confirmación
+del usuario en tasks.md; no fueron ejecutadas por el agente.
 
 ### R1. Buscar una ciudad
 
@@ -166,14 +169,16 @@ por el usuario, sin atribuir su ejecución al agente ni inventar rutas.
 
 ### R2. Mostrar el clima actual
 
-Los siguientes criterios de integración real siguen pendientes, aunque
-existen pruebas simuladas de presentación y validación en tasks.md.
-
-- [ ] Mostrar temperatura real en °C, contrastada con la respuesta de Open-Meteo.
-- [ ] Mostrar sensación térmica real en °C, contrastada con la respuesta.
-- [ ] Mostrar condición del cielo real mediante traducción WMO al español.
-- [ ] Mostrar viento real en km/h, contrastado con la respuesta.
-- [ ] Mostrar humedad real en %, contrastada con la respuesta.
+- [x] Mostrar temperatura actual en °C (Madrid; prueba manual del usuario).
+- [x] Mostrar sensación térmica actual en °C (Madrid; prueba manual del usuario).
+- [x] Mostrar condición del cielo en español (Madrid; prueba manual del usuario).
+- [x] Mostrar viento actual en km/h (Madrid; prueba manual del usuario).
+- [x] Mostrar humedad actual en % (Madrid; prueba manual del usuario).
+- [ ] Contrastar temperatura con la respuesta de Open-Meteo.
+- [ ] Contrastar sensación térmica con la respuesta de Open-Meteo.
+- [ ] Contrastar condición mostrada con weather_code de la respuesta.
+- [ ] Contrastar viento con la respuesta de Open-Meteo.
+- [ ] Contrastar humedad con la respuesta de Open-Meteo.
 - [x] Traducir los 29 códigos WMO documentados (simulación del agente, etapa 4).
 - [x] Mostrar «Condición no disponible» ante un código desconocido (simulación del agente, etapa 4).
 - [x] Rechazar datos actuales ausentes o inválidos sin convertirlos en cero (simulación del agente, etapa 4).
@@ -197,7 +202,7 @@ existen pruebas simuladas de presentación y validación en tasks.md.
 - [x] Mantener carga durante la consulta actual (simulación del agente, etapa 4).
 - [x] Impedir consultas simultáneas durante la secuencia actual (simulación del agente, etapa 4).
 - [x] Retirar carga y recuperar controles mediante finally tras éxito (simulación del agente).
-- [x] Retirar carga y recuperar controles mediante finally tras error (simulación del agente).
+- [x] Retirar carga y recuperar controles tras error (simulación del agente de finally y prueba manual del usuario sin conexión).
 - [ ] Observar la carga visible en navegador con red ralentizada.
 - [ ] Verificar la carga hasta finalizar el pronóstico una vez implementado.
 
@@ -210,9 +215,10 @@ existen pruebas simuladas de presentación y validación en tasks.md.
 - [x] Mostrar error ante respuesta actual incompleta (simulación del agente).
 - [x] Manejar un fallo de red simulado sin afirmar una causa de conexión específica (simulación del agente).
 - [x] Permitir búsqueda correcta después de errores simulados (simulación del agente).
-- [x] Limpiar ciudad y clima anteriores antes de una nueva búsqueda (simulación del agente, etapa 4).
-- [ ] Comprobar el mensaje y recuperación ante desconexión real en navegador.
-- [ ] Comprobar una nueva búsqueda tras error en navegador con registro explícito.
+- [x] Limpiar ciudad y clima anteriores antes de una nueva búsqueda (simulación del agente; usuario confirma limpieza ante ciudad inexistente).
+- [x] Comprobar el mensaje y recuperación ante desconexión real en navegador (usuario: error, fin de carga y controles recuperados).
+- [x] Comprobar una nueva búsqueda tras error en navegador (usuario: Quetzaltenango después de ciudad inexistente).
+- [x] Buscar correctamente al reconectar sin recargar la página (prueba manual del usuario).
 
 ### R6. Funcionar en teléfonos
 
