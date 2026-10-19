@@ -14,7 +14,7 @@ solo porque están implementadas.
 - specs/weather-app.md: spec principal en seis secciones.
 - specs/plan.md: detalle operativo de etapas y comprobaciones.
 - specs/tasks.md: seguimiento y evidencia, distinguiendo su procedencia.
-- README.md: documentación de uso pendiente.
+- README.md: descripción, ejecución local, uso, estructura y limitaciones.
 - AGENTS.md y .gitignore: instrucciones y reglas de Git existentes.
 
 Mantener HTML, CSS y JavaScript separados. No instalar dependencias,
@@ -95,14 +95,17 @@ externos como HTML sin validarlos.
    confirmó en navegador Madrid con cinco datos, unidades y cielo en español;
    aviso y limpieza ante ciudad inexistente; Quetzaltenango después del error;
    error sin conexión con fin de carga y controles recuperados; búsqueda
-   correcta al reconectar sin recargar. Contraste de valores con la respuesta
-   API y otras comprobaciones no registradas siguen pendientes.
+   correcta al reconectar sin recargar. Posteriormente confirmó el contraste
+   de los cinco datos con la API para Quetzaltenango; valores en tasks.md.
 5. Pronóstico autorizado e implementado; sintaxis y simulaciones registradas.
    Usuario confirma clima y tres días visibles, limpieza tras ciudad inexistente,
    búsqueda posterior correcta, error sin conexión y recuperación al reconectar
    sin recarga, carga visible y botón bloqueado con red lenta, y vista móvil.
-   Contraste de valores y fechas con la respuesta API pendiente.
-6. Verificación completa y documentación pendientes.
+   Posteriormente contrastó fechas y temperaturas del 15–17/10/2026 en
+   America/Guatemala con la API. Es una observación puntual, no permanente.
+6. Documentación creada y actualizada con autorización, sin cambios de código.
+   Usuario confirma vacío/espacios sin peticiones y Enter sin recarga.
+   Verificación completa y revisión final pendientes según tasks.md.
 
 Carga, errores y recuperación se adelantaron al primer fetch para probar
 cada etapa independientemente, incluida la simulación de fallos de conexión.
@@ -133,16 +136,25 @@ navegador. Bootstrap por CDN y Open-Meteo requieren conexión.
   actual, limpieza, reintento, desconexión y reconexión sin recarga.
 - Las seis comprobaciones manuales de etapa 5 se registran por confirmación
   del usuario en tasks.md, no como pruebas ejecutadas por el agente.
-- Mantener pendiente el contraste de valores y fechas con la respuesta API
-  y la correspondencia exacta de los días con la zona de la ciudad.
+- El usuario confirmó el contraste de Quetzaltenango con la API, así como
+  vacío/espacios sin peticiones y Enter sin recarga. Registro puntual en tasks.md.
+- No se conoce la hora exacta de aquella consulta: sigue pendiente comprobar
+  explícitamente hoy/mañana/pasado mañana respecto del momento local.
 - Usar las herramientas del navegador para las comprobaciones aún pendientes:
-  contraste de respuestas, botón/Enter por separado y aspectos móviles
+  envío con botón por separado, región/país, respuestas incompletas y aspectos móviles
   no confirmados. Red lenta y los aspectos móviles informados ya tienen registro.
 - Simular errores HTTP y respuestas incompletas de forma controlada; no
   depender de que Open-Meteo falle realmente.
+- Esas simulaciones ya pasaron en las etapas 3–5. No se repitieron al editar
+  documentación; cualquier comprobación adicional en navegador sigue pendiente.
 - Registrar resultado, origen y limitaciones; las simulaciones no sustituyen
   la integración real. No marcar nuevas pruebas por reorganizar los specs.
 - Revisar git diff y git status --short. No ignorar AGENTS.md, specs/,
   README.md ni evidencias.
 - Conservar evidencia de /init, /undo, /redo y /compact cuando se ejecuten;
   no inventar su ejecución. Commits únicamente con autorización explícita.
+- El usuario confirma /undo → /redo → /undo, con diseño original restaurado.
+  Se registra /compact y la recuperación del estado mediante lectura de archivos
+  y Git, descartando el resumen desactualizado. Único indicador posterior
+  conocido: aproximadamente 38.170 tokens, 10 % usado; sin medición anterior
+  ni reducción calculable. Detalle y limitaciones de evidencia en tasks.md.

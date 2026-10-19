@@ -11,7 +11,8 @@ durante una revisión de clase.
 ## Tecnologías acordadas
 
 - HTML para la estructura de la página.
-- Bootstrap por CDN para formularios, botones, tarjetas y diseño adaptable.
+- Bootstrap CSS 5.3.8 por CDN, sin su JavaScript, para formularios, botones,
+  tarjetas y diseño adaptable.
 - CSS propio para personalizar lo necesario.
 - JavaScript puro para el funcionamiento.
 - Open-Meteo como fuente de datos, sin llave de API.
@@ -67,7 +68,7 @@ https://open-meteo.com/en/docs/geocoding-api
 
 ## Decisiones agregadas manualmente
 
-### Estructura prevista
+### Estructura actual
 
 - index.html: estructura de la página y enlaces a Bootstrap.
 - estilos.css: personalización visual y ajustes para teléfonos.
@@ -79,12 +80,12 @@ https://open-meteo.com/en/docs/geocoding-api
 - AGENTS.md: instrucciones y decisiones del proyecto.
 - .gitignore: archivos que Git debe ignorar.
 
-Esta estructura es una propuesta.
-No crear todos los archivos de una sola vez.
+La estructura fue aprobada y creada por etapas.
+Para nuevos archivos, mantener la aprobación previa y no crearlos todos de una vez.
 
 ### Ejecución local
 
-Cuando exista index.html:
+Con los archivos actuales:
 
 1. Abrir una terminal en la carpeta weather-app.
 2. Ejecutar: py -m http.server 8000

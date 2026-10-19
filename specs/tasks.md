@@ -42,7 +42,7 @@ Marcar una tarea solo después de realizarla y comprobarla.
 - [x] Recuperar controles y retirar la carga mediante finally.
 - [x] Probar Madrid en navegador (usuario; captura proporcionada según su confirmación).
 - [x] Probar búsqueda sin coincidencias en navegador (usuario; captura proporcionada según su confirmación).
-- [ ] Probar campo vacío en navegador con registro explícito.
+- [x] Probar campo vacío y espacios: aviso sin peticiones (confirmación posterior del usuario).
 - [x] Probar error HTTP mediante simulación controlada.
 - [x] Probar fallo de conexión y nueva búsqueda después del error (usuario; confirmación manual de etapa 4).
 - [x] Observar la carga con red ralentizada (usuario, etapa 5: visible y botón bloqueado hasta terminar).
@@ -67,7 +67,8 @@ Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - El primer chequeo simulado falló por una tilde alterada en la entrada de
   PowerShell; se corrigió el chequeo y la repetición pasó. No fue un fallo
   de la aplicación.
-- Pendientes: navegador con botón y Enter y campo vacío en navegador.
+- Pendiente: envío con botón por separado en navegador. El usuario confirmó
+  después Enter sin recarga y vacío/espacios con aviso sin peticiones.
   La carga con red ralentizada fue confirmada por el usuario en la etapa 5.
   La desconexión real y recuperación fueron
   confirmadas después por el usuario en la etapa 4. Madrid y sin coincidencias
@@ -84,7 +85,7 @@ Comprobaciones simuladas y de sintaxis ejecutadas por el agente en la etapa 3:
 - [x] Contemplar códigos desconocidos.
 - [x] Comprobar éxito y recuperación tras fallo de la petición meteorológica con DOM/fetch simulados (agente).
 - [x] Comprobar visualización del clima actual real en navegador (usuario: Madrid, cinco datos con unidades y cielo en español).
-- [ ] Contrastar los cinco datos mostrados con la respuesta de Open-Meteo.
+- [x] Contrastar los cinco datos con Open-Meteo (usuario, Quetzaltenango; registro en sección 6).
 - [x] Comprobar aviso y limpieza de resultados ante ciudad inexistente (usuario).
 - [x] Comprobar búsqueda de Quetzaltenango después del error (usuario).
 - [x] Comprobar error, fin de carga y recuperación de controles sin conexión (usuario).
@@ -114,9 +115,10 @@ Pruebas manuales de etapa 4 confirmadas por el usuario, no ejecutadas por el age
 - Sin conexión aparece un error, termina la carga y se recuperan los controles.
 - Al reconectar se puede buscar correctamente sin recargar la página.
 
-Pendientes: contraste de los cinco valores con la respuesta API, campo vacío
-y métodos de envío en navegador con registro explícito, respuestas incompletas
-en navegador y otras verificaciones sin registro. Red lenta, aspectos móviles
+Pendientes: envío con botón por separado, respuestas incompletas en navegador
+y otras verificaciones sin registro. El usuario confirmó posteriormente el
+contraste con la API, vacío/espacios sin peticiones y Enter sin recarga.
+Red lenta, aspectos móviles
 y visualización del pronóstico fueron confirmados después en la etapa 5.
 Estas confirmaciones no acreditan criterios adicionales ni la verificación final.
 
@@ -133,7 +135,7 @@ Estas confirmaciones no acreditan criterios adicionales ni la verificación fina
 - [x] Presentar la etapa para revisión.
 - [x] Comprobar clima actual y pronóstico de tres días visibles en navegador (usuario).
 - [ ] Comprobar correspondencia exacta de las fechas con hoy y los dos días siguientes en la zona de la ciudad.
-- [ ] Contrastar fechas, máximas y mínimas con la respuesta real de Open-Meteo.
+- [x] Contrastar fechas, máximas y mínimas con Open-Meteo (usuario, Quetzaltenango; registro en sección 6).
 - [x] Repetir ciudad inexistente, búsqueda posterior y desconexión/reconexión en navegador con pronóstico integrado (usuario).
 
 Comprobaciones ejecutadas por el agente en la etapa 5:
@@ -162,9 +164,11 @@ Pruebas manuales de etapa 5 confirmadas por el usuario, no ejecutadas por el age
 - Vista móvil a 320 y 375 px sin desplazamiento horizontal,
   superposiciones ni controles recortados.
 
-Siguen pendientes el contraste de valores y fechas con la respuesta API,
-la correspondencia exacta de los días con la zona de la ciudad y las
-comprobaciones no informadas. No se atribuyen nuevas ejecuciones al agente.
+El contraste de valores y fechas con la API fue confirmado posteriormente
+por el usuario (sección 6). Sigue pendiente la comprobación explícita de
+hoy y los dos días siguientes respecto del momento local de consulta,
+cuya hora exacta no se informó, y las comprobaciones no confirmadas.
+No se atribuyen nuevas ejecuciones al agente.
 
 ## 6. Comprobaciones y documentación
 
@@ -174,20 +178,79 @@ en las etapas 3 y 4. No se han ejecutado pruebas nuevas al reorganizar los specs
 
 - [x] Probar clima actual y pronóstico visibles en la aplicación completa (usuario, etapa 5).
 - [x] Repetir búsqueda sin coincidencias y limpieza con pronóstico (usuario, etapa 5).
-- [ ] Probar campo vacío y campo con espacios.
+- [x] Probar campo vacío y espacios: aviso sin peticiones (usuario).
 - [ ] Probar una búsqueda de un carácter.
 - [x] Probar fallo de conexión y recuperación al reconectar sin recarga (usuario, etapa 5).
-- [ ] Probar un error HTTP mediante simulación controlada.
-- [ ] Probar una respuesta incompleta mediante simulación controlada.
+- [x] Probar errores HTTP mediante simulación controlada (agente, etapas 3–5; ya registrados, no repetidos en esta actualización).
+- [x] Probar respuestas incompletas mediante simulación controlada (agente, etapas 3–5; ya registradas, no repetidas en esta actualización).
+- [ ] Comprobar en navegador una respuesta incompleta sin undefined, NaN ni valores inventados.
 - [x] Observar carga con red ralentizada y botón bloqueado hasta terminar (usuario, etapa 5).
-- [ ] Comparar fechas, valores y unidades con la respuesta de la API.
+- [x] Comparar fechas, valores y unidades con la API (usuario, Quetzaltenango; detalle abajo).
 - [x] Comprobar 320 y 375 px sin desplazamiento horizontal, superposiciones ni controles recortados (usuario, etapa 5).
-- [ ] Comprobar envío con Enter en navegador.
+- [x] Comprobar envío con Enter sin recarga en navegador (usuario).
 - [ ] Comprobar legibilidad de todos los textos y mensajes y contenidos de tarjetas sin recortes en teléfono.
 - [x] Comprobar nueva búsqueda después de un error (usuario, etapa 5).
 - [ ] Registrar evidencias reales y correcciones.
-- [ ] Crear README.md con uso local, conexión y fuentes de datos.
-- [ ] Revisar git diff y git status --short.
-- [ ] Conservar evidencias de los comandos exigidos por la práctica cuando
-      se ejecuten: /init, /undo, /redo y /compact.
-- [ ] Presentar el resultado para revisión, sin realizar commits.
+- [x] Crear README.md con uso local, conexión y fuentes de datos (actualización documental autorizada).
+- [x] Revisar git diff y git status --short (actualización documental; diff de README mostrado por separado).
+- [x] Registrar /undo → /redo → /undo y diseño original restaurado (confirmación del usuario).
+- [x] Registrar /compact y recuperación del estado mediante archivos y Git (detalle abajo).
+- [ ] Completar las evidencias exigidas por la práctica, incluido /init;
+  no se aportaron rutas de capturas ni se acredita aquí su ejecución.
+- [x] Presentar la documentación para revisión, sin realizar commits; aceptación final del usuario pendiente.
+
+### Confirmaciones manuales adicionales del usuario
+
+No son pruebas ejecutadas por el agente durante esta actualización documental:
+- Campo vacío y espacios: aviso sin peticiones.
+- Búsqueda con Enter sin recargar la página.
+- Contraste de Quetzaltenango con la respuesta de Open-Meteo, zona
+  `America/Guatemala`:
+
+| Dato actual | Valor observado |
+| --- | --- |
+| Temperatura | 13.7 °C |
+| Sensación térmica | 14.5 °C |
+| Viento | 2.2 km/h |
+| Humedad | 98 % |
+| Código del cielo | 3, mostrado como «Cubierto» |
+
+| Fecha del pronóstico | Máxima | Mínima |
+| --- | --- | --- |
+| 15/10/2026 | 18 °C | 11.7 °C |
+| 16/10/2026 | 20.9 °C | 10 °C |
+| 17/10/2026 | 20.5 °C | 10.9 °C |
+
+Son valores observados en esa consulta, no constantes ni valores esperados
+para futuras búsquedas. No se informó la hora exacta ni rutas de evidencias.
+No se extrapola este contraste a todas las ciudades o zonas horarias.
+
+### Ejercicios y recuperación del contexto
+
+- El usuario confirmó el ejercicio `/undo → /redo → /undo` ya realizado,
+  con el diseño original restaurado. No se volvió a ejecutar ni se cambió
+  el diseño durante esta actualización.
+- Se registra `/compact` y la recuperación posterior mediante AGENTS.md,
+  los tres specs, el código actual, `git log -5 --oneline` y
+  `git status --short`, descartando el resumen desactualizado.
+- Aquella revisión confirmó `9541019` (pronóstico) y `7823dfc` (clima actual)
+  como los dos commits más recientes y un árbol de trabajo limpio.
+- Único indicador posterior conocido: aproximadamente **38.170 tokens,
+  10 % usado**. No se conoce el valor anterior: no se afirma una reducción
+  ni se calcula un ahorro. No se inventan capturas ni rutas.
+
+### Pendientes reales de cierre
+
+Continúan sin confirmar: búsqueda de un carácter, envío con botón por
+separado sin recarga, primera coincidencia con región/país, respuesta
+incompleta en navegador, configuración viewport en navegador, legibilidad
+móvil y contenidos de tarjetas sin recortes, y comprobación explícita de
+los días respecto del momento local. Faltan completar evidencias y revisar
+el resultado final. Las simulaciones HTTP y de datos incompletos ya están
+realizadas; no se presentan como pruebas nuevas ni como pruebas de navegador.
+
+Comprobaciones de esta actualización documental:
+- Diffs mostrados y revisados; `git diff --check` sin errores de espacios.
+- SHA-256 de index.html, estilos.css y app.js idénticos antes y después:
+  código y diseño intactos. No se ejecutaron pruebas funcionales nuevas.
+- Solo README.md, AGENTS.md y los tres specs cambiaron; sin commits.

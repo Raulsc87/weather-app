@@ -30,12 +30,12 @@ Implementado no significa validado completamente en condiciones reales.
 
 ### Pendiente
 
-- Contraste de fechas y temperaturas del pronóstico con la API y verificación
-  exacta de hoy y los dos días siguientes en la zona de la ciudad.
-- Contraste de valores actuales con la respuesta de la API y comprobaciones
-  de navegador aún sin registro (por ejemplo, botón y Enter por separado).
+- Verificación explícita de hoy y los dos días siguientes respecto del momento
+  local de consulta; ya se contrastaron las fechas y temperaturas indicadas en tasks.md.
+- Comprobaciones de navegador aún sin registro, como envío con botón por separado,
+  primera coincidencia con región/país y respuestas incompletas.
 - Otras comprobaciones no confirmadas, como legibilidad de todos los mensajes en móvil.
-- Documentación final de uso.
+- Revisión final de la documentación de uso, ya creada en README.md.
 
 ### Fuera de alcance
 
@@ -140,9 +140,9 @@ DOM de tarjetasPronostico; no hay almacenamiento persistente adicional.
 | 1. Specs | Preparados y aprobados; reorganización en seis secciones aprobada. |
 | 2. Interfaz estática | Implementada; usuario confirma 320 y 375 px sin desplazamiento horizontal, superposiciones ni controles recortados. Otras verificaciones móviles no confirmadas siguen pendientes. |
 | 3. Geocodificación | Implementada; Madrid y búsqueda sin coincidencias comprobadas manualmente por el usuario, con capturas. Simulaciones del agente registradas en tasks.md. |
-| 4. Clima actual | Implementado; usuario confirma Madrid con cinco datos, unidades y cielo en español, limpieza ante ciudad inexistente, reintento con Quetzaltenango, desconexión y recuperación al reconectar sin recarga. Contraste con respuesta API pendiente. |
-| 5. Pronóstico | Implementado; simulaciones del agente y pruebas manuales del usuario registradas: visualización, limpieza, reintento, desconexión/reconexión, red lenta y vista móvil. Contraste con API pendiente. |
-| 6. Verificación final y documentación | Pendiente. |
+| 4. Clima actual | Implementado; pruebas anteriores conservadas y contraste manual del usuario con la API para Quetzaltenango registrado en tasks.md. |
+| 5. Pronóstico | Implementado; simulaciones y pruebas manuales conservadas. Usuario contrasta fechas y temperaturas del 15–17/10/2026, zona America/Guatemala. |
+| 6. Verificación final y documentación | En revisión: README creado; usuario confirma vacío/espacios, Enter y contraste con API. Persisten comprobaciones no confirmadas. |
 
 Desde el primer fetch se utilizan carga, comprobación HTTP y
 try/catch/finally. El bloqueo cubre geocodificación, meteorología y presentación
@@ -153,7 +153,8 @@ fetch, async/await y funciones sencillas en español, con arreglos y ciclos
 en el pronóstico.
 
 El detalle operativo está en plan.md; las tareas y evidencias, en tasks.md.
-La etapa 5 fue autorizada. Avanzar a otra etapa requiere nueva autorización.
+La implementación de la etapa 5 está terminada. Se autorizó únicamente la
+actualización documental de la etapa final, sin cambiar el código ni hacer commits.
 
 ## 5. Criterios de aceptación
 
@@ -164,6 +165,9 @@ Las capturas de Madrid y sin coincidencias se registran según lo informado
 por el usuario, sin atribuir su ejecución al agente ni inventar rutas.
 Las pruebas manuales adicionales de las etapas 4 y 5 se registran por confirmación
 del usuario en tasks.md; no fueron ejecutadas por el agente.
+Las confirmaciones posteriores de vacío/espacios, Enter y contraste de
+Quetzaltenango con la API también proceden del usuario. Son observaciones
+puntuales, no valores permanentes ni pruebas nuevas ejecutadas por el agente.
 
 ### R1. Buscar una ciudad
 
@@ -171,7 +175,7 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 - [x] Mostrar un aviso ante una búsqueda sin coincidencias (prueba manual del usuario, con captura).
 - [x] Recortar espacios iniciales y finales antes de consultar (simulación del agente, etapa 3).
 - [ ] Enviar con el botón sin recargar la página, comprobado en navegador.
-- [ ] Enviar con Enter sin recargar la página, comprobado en navegador.
+- [x] Enviar con Enter sin recargar la página (prueba manual del usuario).
 - [ ] Comprobar en navegador la primera coincidencia y su región y país disponibles.
 - [x] No solicitar el clima cuando results falta o está vacío (simulación del agente: salida por error antes de consultar clima).
 
@@ -182,11 +186,11 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 - [x] Mostrar condición del cielo en español (Madrid; prueba manual del usuario).
 - [x] Mostrar viento actual en km/h (Madrid; prueba manual del usuario).
 - [x] Mostrar humedad actual en % (Madrid; prueba manual del usuario).
-- [ ] Contrastar temperatura con la respuesta de Open-Meteo.
-- [ ] Contrastar sensación térmica con la respuesta de Open-Meteo.
-- [ ] Contrastar condición mostrada con weather_code de la respuesta.
-- [ ] Contrastar viento con la respuesta de Open-Meteo.
-- [ ] Contrastar humedad con la respuesta de Open-Meteo.
+- [x] Contrastar temperatura con Open-Meteo (usuario, Quetzaltenango: 13.7 °C).
+- [x] Contrastar sensación térmica (usuario, Quetzaltenango: 14.5 °C).
+- [x] Contrastar condición con weather_code (usuario: 3, «Cubierto»).
+- [x] Contrastar viento (usuario, Quetzaltenango: 2.2 km/h).
+- [x] Contrastar humedad (usuario, Quetzaltenango: 98 %).
 - [x] Traducir los 29 códigos WMO documentados (simulación del agente, etapa 4).
 - [x] Mostrar «Condición no disponible» ante un código desconocido (simulación del agente, etapa 4).
 - [x] Rechazar datos actuales ausentes o inválidos sin convertirlos en cero (simulación del agente, etapa 4).
@@ -204,7 +208,8 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 - [x] Mostrar mínima en °C por cada día (DOM/fetch simulados, etapa 5).
 - [x] Relacionar fechas, máximas y mínimas por el mismo índice (simulación del agente, etapa 5).
 - [x] Informar de datos diarios incompletos sin inventar valores (40 respuestas inválidas simuladas, etapa 5).
-- [ ] Contrastar fechas, máximas y mínimas con la respuesta real en navegador.
+- [x] Contrastar fechas, máximas y mínimas con la respuesta real (usuario,
+  Quetzaltenango, 15–17/10/2026, America/Guatemala; valores en tasks.md).
 
 ### R4. Mostrar el estado de carga
 
@@ -219,8 +224,8 @@ del usuario en tasks.md; no fueron ejecutadas por el agente.
 
 ### R5. Validar y permitir recuperación
 
-- [x] Mostrar aviso para campo vacío sin peticiones (simulación del agente).
-- [x] Tratar un campo con solo espacios como vacío (simulación del agente).
+- [x] Mostrar aviso para campo vacío sin peticiones (simulación del agente y prueba manual del usuario).
+- [x] Tratar un campo con solo espacios como vacío, sin peticiones (simulación del agente y prueba manual del usuario).
 - [x] Mostrar error comprensible ante HTTP fallido en geocodificación (simulación del agente).
 - [x] Mostrar error comprensible ante HTTP fallido en meteorología (simulación del agente).
 - [x] Mostrar error ante respuesta actual incompleta (simulación del agente).
